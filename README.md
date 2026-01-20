@@ -1,73 +1,93 @@
-# React + TypeScript + Vite
+Fantasy Cricket Team Builder
+Project Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a Fantasy Cricket Team Builder inspired by apps like Dream11.
+The main idea of this project is to allow users to view cricket players, create a fantasy team, and see upcoming matches.
 
-Currently, two official plugins are available:
+For Sprint 1, the project is kept static and simple. The focus is on setting up the project structure, components, styling, and teamwork rather than advanced features.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Team Name
 
-## React Compiler
+Fantasy XI
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Team Members
 
-## Expanding the ESLint configuration
+Jashanpreet Singh
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Ravdeep Sharma
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Sukhpreet Kaur
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+What This Project Does
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Right now, the application:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Shows a list of cricket players
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Shows a sample fantasy team
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Shows upcoming cricket matches
+
+Displays everything in a clean layout with header and footer
+
+There is no backend or login yet. We are gonna add more features in future sprints.
+
+High-Level User Stories
+
+As a user, I wanna see a list of cricket players so I can choose players for my fantasy team.
+
+As a user, I wanna create and view my fantasy team in one place.
+
+As a user, I wanna see upcoming matches so I know which games are coming next.
+
+Technologies Used
+
+React
+
+TypeScript
+
+Vite
+
+CSS
+
+GitHub (for version control and teamwork)
+
+Project Structure
+
+The project is organized in a simple way:
+
+Components are inside the components folder
+
+Each main feature has its own component
+
+App.tsx is used to combine all components
+
+Global styles are handled using App.css
+
+Sprint 1 Focus
+
+In Sprint 1, we focused on:
+
+Setting up the project using React and TypeScript
+
+Creating one high-level component per team member
+
+Integrating all components into the main App
+
+Adding basic styling and a style guide
+
+Using GitHub Kanban board and pull requests
+
+Future Improvements
+
+In future sprints, we are planning to:
+
+Add user login and authentication
+
+Allow users to add and remove players dynamically
+
+Save fantasy teams using storage or backend
+
+Add match scoring and fantasy points
+
+Improve UI and navigation using routing
