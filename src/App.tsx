@@ -17,7 +17,7 @@ function App() {
       </main>
 
       <footer>
-        <p>Created by: Jashanpreet Singh, Member 2, Member 3</p>
+        <p>Created by: Jashanpreet Singh, Ravdeep, Sukhpreet</p>
       </footer>
     </>
   );
