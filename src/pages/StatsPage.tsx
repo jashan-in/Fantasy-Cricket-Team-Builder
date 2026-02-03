@@ -6,7 +6,9 @@ export default function StatsPage({ team }: Props) {
   return (
     <section>
       <h2>Team Stats</h2>
-      <p>You have selected {team.length} players.</p>
+
+      {/* Show how many players are selected */}
+      <p>You have selected {team.length} players in your team.</p>
     </section>
   );
 }
