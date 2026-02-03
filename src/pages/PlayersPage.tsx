@@ -17,6 +17,13 @@ export default function PlayersPage({ team, setTeam }: Props) {
   // Form state
   const [newPlayer, setNewPlayer] = useState("");
 
+    // Add to fantasy team
+  const handleAddToTeam = (player: string) => {
+    if (!team.includes(player)) {
+      setTeam([...team, player]);
+    }
+  };
+
   return (
     <section>
       <h2>Players Page</h2>
