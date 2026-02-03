@@ -25,7 +25,10 @@ export default function TeamPage({ team, setTeam }: Props) {
             <li key={player}>
               {/* Show player name */}
               {player}{" "}
-
+              {/* Button to remove this player from the team */}
+              <button onClick={() => handleRemove(player)}>
+                Remove
+              </button>
             </li>
           ))}
         </ul>
