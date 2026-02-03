@@ -24,6 +24,15 @@ export default function PlayersPage({ team, setTeam }: Props) {
     }
   };
 
+    // Add a brand new player to available players list
+  const handleAddPlayer = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPlayer.trim() !== "" && !players.includes(newPlayer)) {
+      setPlayers([...players, newPlayer]);
+      setNewPlayer("");
+    }
+  };
+
   return (
     <section>
       <h2>Players Page</h2>
