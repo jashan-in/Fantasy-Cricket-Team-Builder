@@ -3,5 +3,10 @@ type Props = {
 };
 
 export default function StatsPage({ team }: Props) {
-  return <h2>Stats Page</h2>;
+  return (
+    <section>
+      <h2>Team Stats</h2>
+      <p>You have selected {team.length} players.</p>
+    </section>
+  );
 }
