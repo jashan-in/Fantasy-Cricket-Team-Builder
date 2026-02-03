@@ -1,25 +1,61 @@
+import { useState } from "react";
+
 type Props = {
   team: string[];
   setTeam: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export default function PlayersPage({ team, setTeam }: Props) {
-  const players = ["Virat Kohli", "Jasprit Bumrah", "Steve Smith", "Ben Stokes"];
+  // Existing default players
+  const [players, setPlayers] = useState([
+    "Virat Kohli",
+    "Jasprit Bumrah",
+    "Steve Smith",
+    "Ben Stokes",
+  ]);
 
-  const handleAdd = (player: string) => {
+  // Form state
+  const [newPlayer, setNewPlayer] = useState("");
+
+    // Add to fantasy team
+  const handleAddToTeam = (player: string) => {
     if (!team.includes(player)) {
       setTeam([...team, player]);
+    }
+  };
+
+    // Add a brand new player to available players list
+  const handleAddPlayer = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPlayer.trim() !== "" && !players.includes(newPlayer)) {
+      setPlayers([...players, newPlayer]);
+      setNewPlayer("");
     }
   };
 
   return (
     <section>
       <h2>Players Page</h2>
+
+      {/* FORM COMPONENT (Sprint Requirement) */}
+      <form onSubmit={handleAddPlayer}>
+        <input
+          type="text"
+          placeholder="Enter new player name"
+          value={newPlayer}
+          onChange={(e) => setNewPlayer(e.target.value)}
+        />
+        <button type="submit">Add Player</button>
+      </form>
+
+      {/* PLAYER LIST */}
       <ul>
         {players.map((player) => (
           <li key={player}>
             {player}{" "}
-            <button onClick={() => handleAdd(player)}>Add to Team</button>
+            <button onClick={() => handleAddToTeam(player)}>
+              Add to Team
+            </button>
           </li>
         ))}
       </ul>
