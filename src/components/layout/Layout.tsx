@@ -15,7 +15,7 @@ export default function Layout() {
       </main>
 
       <footer>
-        <p>Created by: Jashanpreet Singh, Ravdeep, Sukhpreet</p>
+        <p>Created by: Jashanpreet Singh, Ravdeep Sharma, Sukhpreet Kaur, Dilraj Kaur</p>
       </footer>
     </div>
   );
