@@ -15,6 +15,23 @@ export default function TeamPage({ team, setTeam }: Props) {
   return (
     <section>
       <h2>My Fantasy Team</h2>
+            {/* If the team is empty, show a message */}
+      {team.length === 0 ? (
+        <p>No players selected yet.</p>
+      ) : (
+        // Otherwise display the list of selected players
+        <ul>
+          {team.map((player) => (
+            <li key={player}>
+              {/* Show player name */}
+              {player}{" "}
+
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
 
 
 }
