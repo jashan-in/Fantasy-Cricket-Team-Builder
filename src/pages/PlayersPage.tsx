@@ -1,59 +1,38 @@
 import { useState } from "react";
+import { useTeam } from "../hooks/useTeam";
 
-type Props = {
-  team: string[];
-  setTeam: React.Dispatch<React.SetStateAction<string[]>>;
-};
+export default function PlayersPage() {
+  const { players, team, addToTeam, addPlayerToPool, creditsUsed } = useTeam();
+  const [newPlayerName, setNewPlayerName] = useState("");
 
-export default function PlayersPage({ team, setTeam }: Props) {
-  // Existing default players
-  const [players, setPlayers] = useState([
-    "Virat Kohli",
-    "Jasprit Bumrah",
-    "Steve Smith",
-    "Ben Stokes",
-  ]);
-
-  // Form state
-  const [newPlayer, setNewPlayer] = useState("");
-
-    // Add to fantasy team
-  const handleAddToTeam = (player: string) => {
-    if (!team.includes(player)) {
-      setTeam([...team, player]);
-    }
-  };
-
-    // Add a brand new player to available players list
-  const handleAddPlayer = (e: React.FormEvent) => {
+  const handleAddPlayer = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newPlayer.trim() !== "" && !players.includes(newPlayer)) {
-      setPlayers([...players, newPlayer]);
-      setNewPlayer("");
-    }
+    await addPlayerToPool(newPlayerName);
+    setNewPlayerName("");
   };
 
   return (
     <section>
       <h2>Players Page</h2>
 
-      {/* FORM COMPONENT (Sprint Requirement) */}
+      <p>Credits used: {creditsUsed}</p>
+      <p>Players in team: {team.length}</p>
+
       <form onSubmit={handleAddPlayer}>
         <input
           type="text"
           placeholder="Enter new player name"
-          value={newPlayer}
-          onChange={(e) => setNewPlayer(e.target.value)}
+          value={newPlayerName}
+          onChange={(e) => setNewPlayerName(e.target.value)}
         />
         <button type="submit">Add Player</button>
       </form>
 
-      {/* PLAYER LIST */}
       <ul>
         {players.map((player) => (
-          <li key={player}>
-            {player}{" "}
-            <button onClick={() => handleAddToTeam(player)}>
+          <li key={player.id}>
+            {player.name} ({player.role}) - {player.team}{" "}
+            <button type="button" onClick={() => addToTeam(player)}>
               Add to Team
             </button>
           </li>
