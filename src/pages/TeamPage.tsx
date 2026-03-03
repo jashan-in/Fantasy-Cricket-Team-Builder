@@ -1,32 +1,20 @@
-// Props type: Team page receives the selected team and function to update it
-type Props = {
-  team: string[];
-  setTeam: React.Dispatch<React.SetStateAction<string[]>>;
-};
+import { useTeam } from "../hooks/useTeam";
 
-export default function TeamPage({ team, setTeam }: Props) {
-
-  // Function to remove a player from the shared team state
-  const handleRemove = (player: string) => {
-    // .filter() creates a new array without the selected player
-    setTeam(team.filter((p) => p !== player));
-  };
+export default function TeamPage() {
+  const { team, removePlayer } = useTeam();
 
   return (
     <section>
       <h2>My Fantasy Team</h2>
-            {/* If the team is empty, show a message */}
+
       {team.length === 0 ? (
         <p>No players selected yet.</p>
       ) : (
-        // Otherwise display the list of selected players
         <ul>
           {team.map((player) => (
-            <li key={player}>
-              {/* Show player name */}
-              {player}{" "}
-              {/* Button to remove this player from the team */}
-              <button onClick={() => handleRemove(player)}>
+            <li key={player.id}>
+              {player.name}{" "}
+              <button onClick={() => removePlayer(player.id)}>
                 Remove
               </button>
             </li>
@@ -35,6 +23,4 @@ export default function TeamPage({ team, setTeam }: Props) {
       )}
     </section>
   );
-
-
 }
