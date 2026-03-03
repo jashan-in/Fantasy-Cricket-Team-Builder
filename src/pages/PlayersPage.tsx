@@ -1,17 +1,22 @@
 import { useState } from "react";
 import { useTeam } from "../hooks/useTeam";
+import { playerRepository } from "../repositories/playerRepository";
 import type { Player } from "../types/Player";
+
+/*
+  PlayersPage
+   Uses repository for data access
+   Uses hook for shared team state
+   Keeps presentation logic inside component
+*/
 
 export default function PlayersPage() {
   const { addPlayer } = useTeam();
 
-  // Default players now use Player objects
-  const [players, setPlayers] = useState<Player[]>([
-    { id: "1", name: "Virat Kohli", role: "Batsman" },
-    { id: "2", name: "Jasprit Bumrah", role: "Bowler" },
-    { id: "3", name: "Steve Smith", role: "Batsman" },
-    { id: "4", name: "Ben Stokes", role: "All-rounder" }
-  ]);
+  // Load players from repository instead of hardcoded array
+  const [players, setPlayers] = useState<Player[]>(
+    playerRepository.getAll()
+  );
 
   const [newPlayer, setNewPlayer] = useState("");
 
@@ -29,7 +34,12 @@ export default function PlayersPage() {
         role: "Unknown"
       };
 
-      setPlayers([...players, newEntry]);
+      // Add to repository
+      playerRepository.add(newEntry);
+
+      // Refresh local state from repository
+      setPlayers([...playerRepository.getAll()]);
+
       setNewPlayer("");
     }
   };
