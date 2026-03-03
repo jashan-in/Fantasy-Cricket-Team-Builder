@@ -1,34 +1,45 @@
 import { useState } from "react";
+import { useTeam } from "../hooks/useTeam";
+import { playerRepository } from "../repositories/playerRepository";
+import type { Player } from "../types/Player";
 
-type Props = {
-  team: string[];
-  setTeam: React.Dispatch<React.SetStateAction<string[]>>;
-};
+/*
+  PlayersPage
+   Uses repository for data access
+   Uses hook for shared team state
+   Keeps presentation logic inside component
+*/
 
-export default function PlayersPage({ team, setTeam }: Props) {
-  // Existing default players
-  const [players, setPlayers] = useState([
-    "Virat Kohli",
-    "Jasprit Bumrah",
-    "Steve Smith",
-    "Ben Stokes",
-  ]);
+export default function PlayersPage() {
+  const { addPlayer } = useTeam();
 
-  // Form state
+  // Load players from repository instead of hardcoded array
+  const [players, setPlayers] = useState<Player[]>(
+    playerRepository.getAll()
+  );
+
   const [newPlayer, setNewPlayer] = useState("");
 
-    // Add to fantasy team
-  const handleAddToTeam = (player: string) => {
-    if (!team.includes(player)) {
-      setTeam([...team, player]);
-    }
+  const handleAddToTeam = (player: Player) => {
+    addPlayer(player);
   };
 
-    // Add a brand new player to available players list
   const handleAddPlayer = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newPlayer.trim() !== "" && !players.includes(newPlayer)) {
-      setPlayers([...players, newPlayer]);
+
+    if (newPlayer.trim() !== "") {
+      const newEntry: Player = {
+        id: Date.now().toString(),
+        name: newPlayer,
+        role: "Unknown"
+      };
+
+      // Add to repository
+      playerRepository.add(newEntry);
+
+      // Refresh local state from repository
+      setPlayers([...playerRepository.getAll()]);
+
       setNewPlayer("");
     }
   };
@@ -37,7 +48,6 @@ export default function PlayersPage({ team, setTeam }: Props) {
     <section>
       <h2>Players Page</h2>
 
-      {/* FORM COMPONENT (Sprint Requirement) */}
       <form onSubmit={handleAddPlayer}>
         <input
           type="text"
@@ -48,11 +58,10 @@ export default function PlayersPage({ team, setTeam }: Props) {
         <button type="submit">Add Player</button>
       </form>
 
-      {/* PLAYER LIST */}
       <ul>
         {players.map((player) => (
-          <li key={player}>
-            {player}{" "}
+          <li key={player.id}>
+            {player.name} ({player.role}){" "}
             <button onClick={() => handleAddToTeam(player)}>
               Add to Team
             </button>
