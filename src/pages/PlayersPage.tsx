@@ -1,47 +1,30 @@
 import { useState } from "react";
 import { useTeam } from "../hooks/useTeam";
-import { playerRepository } from "../repositories/playerRepository";
+import { usePlayers } from "../hooks/usePlayers";
 import type { Player } from "../types/Player";
 
 /*
   PlayersPage
-   Uses repository for data access
-   Uses hook for shared team state
-   Keeps presentation logic inside component
+  - Uses usePlayers() for player list + adding players (presentation logic)
+  - usePlayers() calls playerService (business logic)
+  - playerService calls playerRepository (data access)
+  - Uses useTeam() for shared team state (handled by teammate)
 */
 
 export default function PlayersPage() {
-  const { addPlayer } = useTeam();
-
-  // Load players from repository instead of hardcoded array
-  const [players, setPlayers] = useState<Player[]>(
-    playerRepository.getAll()
-  );
+  const { addPlayer: addToTeam } = useTeam();
+  const { players, addPlayer, error } = usePlayers();
 
   const [newPlayer, setNewPlayer] = useState("");
 
   const handleAddToTeam = (player: Player) => {
-    addPlayer(player);
+    addToTeam(player);
   };
 
   const handleAddPlayer = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (newPlayer.trim() !== "") {
-      const newEntry: Player = {
-        id: Date.now().toString(),
-        name: newPlayer,
-        role: "Unknown"
-      };
-
-      // Add to repository
-      playerRepository.add(newEntry);
-
-      // Refresh local state from repository
-      setPlayers([...playerRepository.getAll()]);
-
-      setNewPlayer("");
-    }
+    addPlayer(newPlayer);
+    setNewPlayer("");
   };
 
   return (
@@ -57,6 +40,8 @@ export default function PlayersPage() {
         />
         <button type="submit">Add Player</button>
       </form>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       <ul>
         {players.map((player) => (
