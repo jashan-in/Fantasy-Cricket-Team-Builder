@@ -1,10 +1,16 @@
+import { useState } from "react";
+import { matchRepository } from "../repositories/matchRepository";
+import type { Match } from "../types/Match";
+
+/*
+  MatchesPage
+  Uses matchRepository for data access.
+*/
+
 export default function MatchesPage() {
-  // Static match data for now
-  const matches = [
-    "India vs Australia",
-    "England vs Pakistan",
-    "South Africa vs New Zealand",
-  ];
+  const [matches] = useState<Match[]>(
+    matchRepository.getAll()
+  );
 
   return (
     <section>
@@ -12,7 +18,9 @@ export default function MatchesPage() {
 
       <ul>
         {matches.map((match) => (
-          <li key={match}>{match}</li>
+          <li key={match.id}>
+            {match.homeTeam} vs {match.awayTeam} - {match.date} ({match.venue})
+          </li>
         ))}
       </ul>
     </section>
