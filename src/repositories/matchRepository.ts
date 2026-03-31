@@ -1,37 +1,29 @@
-import type { Match } from "../types/Match";
-import { matchTestData } from "../data/matchTestData";
+export const getMatches = async () => {
+  const res = await fetch("http://localhost:3000/matches");
 
-/*
-  matchRepository
-  -------------------------
-  Data Access Layer for Match resource
+  if (!res.ok) {
+    throw new Error("Failed to fetch matches");
+  }
 
-  Handles CRUD for match data.
-  No UI logic.
-  No business logic.
-*/
+  return await res.json();
+};
 
-let matches: Match[] = [...matchTestData];
+export const createMatch = async (match: {
+  teamA: string;
+  teamB: string;
+  date: string;
+}) => {
+  const res = await fetch("http://localhost:3000/matches", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(match),
+  });
 
-function getAll(): Match[] {
-  return matches;
-}
+  if (!res.ok) {
+    throw new Error("Failed to create match");
+  }
 
-function getById(id: string): Match | undefined {
-  return matches.find((m) => m.id === id);
-}
-
-function add(match: Match): void {
-  matches = [...matches, match];
-}
-
-function remove(id: string): void {
-  matches = matches.filter((m) => m.id !== id);
-}
-
-export const matchRepository = {
-  getAll,
-  getById,
-  add,
-  remove
+  return await res.json();
 };
