@@ -1,26 +1,36 @@
-import { useTeam } from "../hooks/useTeam";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getTeams } from "../repositories/teamRepository";
 
-export default function TeamPage() {
-  const { team, removePlayer } = useTeam();
+type Team = {
+  id: number;
+  name: string;
+};
+
+export default function TeamsPage() {
+  const [teams, setTeams] = useState<Team[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      const data = await getTeams();
+      setTeams(data);
+    };
+
+    fetchTeams();
+  }, []);
 
   return (
     <section>
-      <h2>My Fantasy Team</h2>
+      <h2>Available Teams</h2>
 
-      {team.length === 0 ? (
-        <p>No players selected yet.</p>
-      ) : (
-        <ul>
-          {team.map((player) => (
-            <li key={player.id}>
-              {player.name}{" "}
-              <button onClick={() => removePlayer(player.id)}>
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      {teams.map((team) => (
+        <div key={team.id}>
+          <button onClick={() => navigate(`/teams/${team.name}`)}>
+            {team.name}
+          </button>
+        </div>
+      ))}
     </section>
   );
 }
