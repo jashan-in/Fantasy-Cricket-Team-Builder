@@ -1,35 +1,9 @@
-import type { Stats } from "../types/Stats";
-import { statsTestData } from "../data/statsTestData";
+export const getStats = async () => {
+  const res = await fetch("http://localhost:3000/stats");
 
-/*
-  statsRepository
-  -------------------------
-  Handles data access for Stats resource.
-  No UI logic.
-  No business logic.
-*/
+  if (!res.ok) {
+    throw new Error("Failed to fetch stats");
+  }
 
-let statsData: Stats[] = [...statsTestData];
-
-function getAll(): Stats[] {
-  return statsData;
-}
-
-function getById(id: string): Stats | undefined {
-  return statsData.find((s) => s.id === id);
-}
-
-function add(stats: Stats): void {
-  statsData = [...statsData, stats];
-}
-
-function remove(id: string): void {
-  statsData = statsData.filter((s) => s.id !== id);
-}
-
-export const statsRepository = {
-  getAll,
-  getById,
-  add,
-  remove
+  return await res.json();
 };
