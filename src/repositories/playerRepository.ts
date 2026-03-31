@@ -1,27 +1,25 @@
-import type { Player } from "../types/Player";
-import { playerTestData } from "../data/playerTestData";
+export const getPlayers = async () => {
+  const res = await fetch("http://localhost:3000/players");
 
-/*
-  playerRepository handles data access.
-  No business logic here.
-*/
-
-let players: Player[] = [...playerTestData];
-
-export const playerRepository = {
-  getAll(): Player[] {
-    return players;
-  },
-
-  getById(id: string): Player | undefined {
-    return players.find((p) => p.id === id);
-  },
-
-  add(player: Player): void {
-    players.push(player);
-  },
-
-  remove(id: string): void {
-    players = players.filter((p) => p.id !== id);
+  if (!res.ok) {
+    throw new Error("Failed to fetch players");
   }
+
+  return await res.json();
+};
+
+export const createPlayer = async (player: { name: string; team: string }) => {
+  const res = await fetch("http://localhost:3000/players", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(player),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create player");
+  }
+
+  return await res.json();
 };

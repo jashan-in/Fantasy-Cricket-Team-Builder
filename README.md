@@ -1,93 +1,82 @@
 Fantasy Cricket Team Builder
-Project Overview
-
-This project is a Fantasy Cricket Team Builder inspired by apps like Dream11.
-The main idea of this project is to allow users to view cricket players, create a fantasy team, and see upcoming matches.
-
-For Sprint 1, the project is kept static and simple. The focus is on setting up the project structure, components, styling, and teamwork rather than advanced features.
-
 Team Name
 
-Fantasy XI
+Cricket Architects
 
 Team Members
 
-Jashanpreet Singh
+Jashanpreet Singh, Ravdeep Sharma, Sukhpreet Kaur, Dilraj KaurG
 
-Ravdeep Sharma
+Member 2
 
-Sukhpreet Kaur
+Member 3
 
-What This Project Does
+Member 4
 
-Right now, the application:
+Project Description
 
-Shows a list of cricket players
+Fantasy Cricket Team Builder is a React TypeScript application that allows users to:
 
-Shows a sample fantasy team
+Browse available players
 
-Shows upcoming cricket matches
+Build and manage their fantasy team
 
-Displays everything in a clean layout with header and footer
+View upcoming matches
 
-There is no backend or login yet. We are gonna add more features in future sprints.
+View team statistics
+
+The application follows a clean architecture pattern using Hook–Service–Repository layers.
 
 High-Level User Stories
 
-As a user, I wanna see a list of cricket players so I can choose players for my fantasy team.
+As a user, I want to browse available cricket players so that I can select them for my team.
 
-As a user, I wanna create and view my fantasy team in one place.
+As a user, I want to add and remove players from my team so that I can manage my fantasy lineup.
 
-As a user, I wanna see upcoming matches so I know which games are coming next.
+As a user, I want to view upcoming matches so that I know which teams are playing.
 
-Technologies Used
+As a user, I want to see team statistics so that I can understand my team composition.
 
-React
+Architecture Overview (Sprint 3)
 
-TypeScript
+The application uses the following layered architecture:
 
-Vite
+Component
+→ Hook
+→ Service
+→ Repository
+→ Test Data
 
-CSS
+Components handle UI
 
-GitHub (for version control and teamwork)
+Hooks manage presentation logic
 
-Project Structure
+Services manage business logic
 
-The project is organized in a simple way:
+Repositories manage data access
 
-Components are inside the components folder
+Test data simulates external resources
 
-Each main feature has its own component
+Each team member implemented a unique repository resource as part of Sprint 3 requirements.
 
-App.tsx is used to combine all components
+Resources Implemented
 
-Global styles are handled using App.css
+PlayerRepository
 
-Sprint 1 Focus
+MatchRepository
 
-In Sprint 1, we focused on:
+StatsRepository
 
-Setting up the project using React and TypeScript
-
-Creating one high-level component per team member
-
-Integrating all components into the main App
-
-Adding basic styling and a style guide
-
-Using GitHub Kanban board and pull requests
+teamService for business logic
 
 Future Improvements
 
-In future sprints, we are planning to:
+Replace test data with backend API
 
-Add user login and authentication
+Add authentication
 
-Allow users to add and remove players dynamically
+Add persistent storage
 
-Save fantasy teams using storage or backend
+Improve UI styling
 
-Add match scoring and fantasy points
-
-Improve UI and navigation using routing
+Add validation for player roles and limits

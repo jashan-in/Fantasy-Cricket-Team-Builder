@@ -16,6 +16,11 @@ type StatsData = {
   allRounders: PlayerStat[];
 };
 
+/*
+  StatsPage
+  Uses StatsRepository + team hook.
+*/
+
 export default function StatsPage() {
   const [stats, setStats] = useState<StatsData | null>(null);
   const [loading, setLoading] = useState(true);
