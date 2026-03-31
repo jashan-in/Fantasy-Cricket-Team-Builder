@@ -1,58 +1,93 @@
-import { useState } from "react";
-import { useTeam } from "../hooks/useTeam";
-import { usePlayers } from "../hooks/usePlayers";
+import { useEffect, useState } from "react";
+import { useTeam } from "../context/TeamContext";
+import { useMatch } from "../context/MatchContext";
+import { getPlayers } from "../repositories/playerRepository";
 import type { Player } from "../types/Player";
 
-/*
-  PlayersPage
-  - Uses usePlayers() for player list + adding players (presentation logic)
-  - usePlayers() calls playerService (business logic)
-  - playerService calls playerRepository (data access)
-  - Uses useTeam() for shared team state (handled by teammate)
-*/
-
 export default function PlayersPage() {
-  const { addPlayer: addToTeam } = useTeam();
-  const { players, addPlayer, error } = usePlayers();
+  const { addPlayer, team, isRegistered } = useTeam();
+  const { selectedMatch } = useMatch();
 
-  const [newPlayer, setNewPlayer] = useState("");
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleAddToTeam = (player: Player) => {
-    addToTeam(player);
-  };
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      try {
+        const data = await getPlayers();
 
-  const handleAddPlayer = (e: React.FormEvent) => {
-    e.preventDefault();
-    addPlayer(newPlayer);
-    setNewPlayer("");
-  };
+        if (!selectedMatch) {
+          setPlayers([]);
+          return;
+        }
+
+        const filtered = data.filter(
+          (p: any) =>
+            p.team === selectedMatch.teamA ||
+            p.team === selectedMatch.teamB
+        );
+
+        const formatted = filtered.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          role: p.role,
+          team: p.team
+        }));
+
+        setPlayers(formatted);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlayers();
+  }, [selectedMatch]);
+
+  if (!selectedMatch) {
+    return <p>Please select a match first</p>;
+  }
+
+  if (loading) return <p>Loading players...</p>;
 
   return (
-    <section>
-      <h2>Players Page</h2>
+  <section>
+    <h2>
+      Players ({selectedMatch.teamA} vs {selectedMatch.teamB})
+    </h2>
 
-      <form onSubmit={handleAddPlayer}>
-        <input
-          type="text"
-          placeholder="Enter new player name"
-          value={newPlayer}
-          onChange={(e) => setNewPlayer(e.target.value)}
-        />
-        <button type="submit">Add Player</button>
-      </form>
+    {isRegistered && (
+      <p>⚠️ Team already registered. Void it to make changes.</p>
+    )}
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <p>Selected: {team.length}/11</p>
 
-      <ul>
-        {players.map((player) => (
+    <ul>
+      {players.map((player) => {
+        const alreadySelected = team.some((p) => p.id === player.id);
+        const isDisabled =
+          isRegistered || team.length >= 11 || alreadySelected;
+
+        return (
           <li key={player.id}>
             {player.name} ({player.role}){" "}
-            <button onClick={() => handleAddToTeam(player)}>
-              Add to Team
+            <button
+              disabled={isDisabled}
+              onClick={() => addPlayer(player)}
+            >
+              {alreadySelected
+                ? "Added"
+                : isRegistered
+                ? "Locked"
+                : team.length >= 11
+                ? "Max Reached"
+                : "Add"}
             </button>
           </li>
-        ))}
-      </ul>
-    </section>
-  );
+        );
+      })}
+    </ul>
+  </section>
+);
 }
