@@ -12,8 +12,6 @@
     "skipLibCheck": true,
 
     "types": ["node"],
-    "sourceMap": true,
-
-    "ignoreDeprecations": "6.0"
+    "sourceMap": true
   }
 }

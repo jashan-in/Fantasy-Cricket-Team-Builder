@@ -3,6 +3,8 @@ import cors from "cors";
 import { clerkMiddleware } from "@clerk/express";
 import dotenv from "dotenv";
 dotenv.config();
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger";
 
 import playerRoutes from "./routes/playerRoutes";
 import matchRoutes from "./routes/matchRoutes";
@@ -22,7 +24,7 @@ app.use(
 app.use(express.json());
 
 app.use(clerkMiddleware());
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/players", playerRoutes);
 app.use("/matches", matchRoutes);
 app.use("/teams", teamRoutes);
