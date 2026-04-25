@@ -25,6 +25,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.5.0",
     "ts-node-dev": "^2.0.0",
+    "@clerk/express": "^1.7.15",
     "typescript": "^6.0.2"
   }
 }
