@@ -29,7 +29,7 @@ app.use("/players", playerRoutes);
 app.use("/matches", matchRoutes);
 app.use("/teams", teamRoutes);
 app.use("/stats", statsRoutes);
-app.use("/user-team", userTeamRoutes);
+app.use("/api/user-team", userTeamRoutes);
 
 app.listen(3000, () => {
   console.log("Backend running on port 3000");
