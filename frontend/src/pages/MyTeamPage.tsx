@@ -25,14 +25,14 @@ export default function MyTeamPage() {
         ))}
       </ul>
 
-      {/* 🔥 REGISTER BUTTON */}
+      {/* REGISTER BUTTON */}
       {!isRegistered ? (
         <button onClick={registerTeam}>
           Register Team
         </button>
       ) : (
         <>
-          <p>✅ Team Registered</p>
+          <p> Team Registered</p>
           <button onClick={resetTeam}>
             Void Team
           </button>
