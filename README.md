@@ -50,8 +50,24 @@ The application uses a front-end built with React and a back-end built with Node
 - Clerk Authentication
 
 ---
+## Architecture
+
+Component  
+→ Hook  
+→ Service  
+→ Repository  
+→ Backend / Database  
+
+- Components handle UI  
+- Hooks manage logic  
+- Services handle business logic  
+- Repositories manage data/API  
+- Backend handles authentication and database
+
+  ---
 
 ##  Local Setup
+
 
 ### 1. Clone Repository
 ```bash
