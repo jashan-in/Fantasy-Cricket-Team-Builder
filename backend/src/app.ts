@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
 import cors from "cors";
 import { clerkMiddleware } from "@clerk/express";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 import playerRoutes from "./routes/playerRoutes";
@@ -23,11 +24,11 @@ app.use(express.json());
 
 app.use(clerkMiddleware());
 
-app.use("/players", playerRoutes);
-app.use("/matches", matchRoutes);
-app.use("/teams", teamRoutes);
-app.use("/stats", statsRoutes);
-app.use("/user-team", userTeamRoutes);
+app.use("/api/players", playerRoutes);
+app.use("/api/matches", matchRoutes);
+app.use("/api/teams", teamRoutes);
+app.use("/api/stats", statsRoutes);
+app.use("/api/user-team", userTeamRoutes);
 
 app.listen(3000, () => {
   console.log("Backend running on port 3000");
