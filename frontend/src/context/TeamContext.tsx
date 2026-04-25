@@ -55,7 +55,7 @@ export const TeamProvider = ({ children }: any) => {
     }
 
     setIsRegistered(true);
-    alert("Team Registered ✅");
+    alert("Team Registered Successfully!");
   };
 
   const resetTeam = () => {
