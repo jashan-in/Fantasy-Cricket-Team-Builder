@@ -3,7 +3,7 @@ Team Name
 
 Cricket Architects
 
-Team Members
+Team Members are :
 
 Jashanpreet Singh, Ravdeep Sharma, Sukhpreet Kaur, Dilraj KaurG
 
