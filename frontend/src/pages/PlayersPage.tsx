@@ -16,27 +16,26 @@ export default function PlayersPage() {
       try {
         const data = await getPlayers();
 
-        if (!selectedMatch) {
-          setPlayers([]);
-          return;
+        let finalPlayers = data;
+
+        if (selectedMatch) {
+          finalPlayers = data.filter(
+            (p: any) =>
+              p.team === selectedMatch.teamA ||
+              p.team === selectedMatch.teamB
+          );
         }
 
-        const filtered = data.filter(
-          (p: any) =>
-            p.team === selectedMatch.teamA ||
-            p.team === selectedMatch.teamB
-        );
-
-        const formatted = filtered.map((p: any) => ({
+        const formatted = finalPlayers.map((p: any) => ({
           id: p.id,
           name: p.name,
           role: p.role,
-          team: p.team
+          team: p.team,
         }));
 
         setPlayers(formatted);
       } catch (error) {
-        console.error(error);
+        console.error("PLAYER FETCH ERROR:", error);
       } finally {
         setLoading(false);
       }
@@ -45,49 +44,51 @@ export default function PlayersPage() {
     fetchPlayers();
   }, [selectedMatch]);
 
-  if (!selectedMatch) {
-    return <p>Please select a match first</p>;
-  }
-
   if (loading) return <p>Loading players...</p>;
 
   return (
-  <section>
-    <h2>
-      Players ({selectedMatch.teamA} vs {selectedMatch.teamB})
-    </h2>
+    <section>
+      <h2>
+        {selectedMatch
+          ? `Players (${selectedMatch.teamA} vs ${selectedMatch.teamB})`
+          : "All Players"}
+      </h2>
 
-    {isRegistered && (
-      <p>⚠️ Team already registered. Void it to make changes.</p>
-    )}
+      {!selectedMatch && (
+        <p>Showing all players (no match selected)</p>
+      )}
 
-    <p>Selected: {team.length}/11</p>
+      {isRegistered && (
+        <p>⚠️ Team already registered. Void it to make changes.</p>
+      )}
 
-    <ul>
-      {players.map((player) => {
-        const alreadySelected = team.some((p) => p.id === player.id);
-        const isDisabled =
-          isRegistered || team.length >= 11 || alreadySelected;
+      <p>Selected: {team.length}/11</p>
 
-        return (
-          <li key={player.id}>
-            {player.name} ({player.role}){" "}
-            <button
-              disabled={isDisabled}
-              onClick={() => addPlayer(player)}
-            >
-              {alreadySelected
-                ? "Added"
-                : isRegistered
-                ? "Locked"
-                : team.length >= 11
-                ? "Max Reached"
-                : "Add"}
-            </button>
-          </li>
-        );
-      })}
-    </ul>
-  </section>
-);
+      <ul>
+        {players.map((player) => {
+          const alreadySelected = team.some((p) => p.id === player.id);
+          const isDisabled =
+            isRegistered || team.length >= 11 || alreadySelected;
+
+          return (
+            <li key={player.id}>
+              {player.name} ({player.role}){" "}
+              <button
+                disabled={isDisabled}
+                onClick={() => addPlayer(player)}
+              >
+                {alreadySelected
+                  ? "Added"
+                  : isRegistered
+                  ? "Locked"
+                  : team.length >= 11
+                  ? "Max Reached"
+                  : "Add"}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
 }

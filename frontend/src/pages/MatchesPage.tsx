@@ -1,60 +1,48 @@
 import { useEffect, useState } from "react";
+import { getMatches } from "../repositories/matchRepository";
 import { useMatch } from "../context/MatchContext";
 import { useNavigate } from "react-router-dom";
-import { getMatches } from "../repositories/matchRepository";
-
-type Match = {
-  id: number;
-  teamA: string;
-  teamB: string;
-  date: string;
-};
 
 export default function MatchesPage() {
-  const { setSelectedMatch } = useMatch();
+  const [matches, setMatches] = useState([]);
+  const { setSelectedMatch, selectedMatch } = useMatch();
   const navigate = useNavigate();
 
-  const [matches, setMatches] = useState<Match[]>([]);
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    const fetchMatches = async () => {
-      try {
-        const data = await getMatches();
-        setMatches(data);
-      } catch (error) {
-        console.error("Error fetching matches:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMatches();
+    getMatches().then(setMatches);
   }, []);
-
-  const handleSelect = (match: Match) => {
-    setSelectedMatch({
-      teamA: match.teamA,
-      teamB: match.teamB,
-    });
-
-    navigate("/players");
-  };
-
-  if (loading) return <p>Loading matches...</p>;
 
   return (
     <section>
-      <h2>Upcoming Matches</h2>
+      <h2>Matches</h2>
 
-      {matches.map((match) => (
-        <div key={match.id}>
-          {match.teamA} vs {match.teamB} ({match.date})
-          <button onClick={() => handleSelect(match)}>
-            Select
-          </button>
-        </div>
-      ))}
+      <ul>
+        {matches.map((match: any) => {
+          const isSelected =
+            selectedMatch?.teamA === match.teamA &&
+            selectedMatch?.teamB === match.teamB;
+
+          return (
+            <li key={match.id}>
+              {match.teamA} vs {match.teamB}
+
+              <button
+                onClick={() => {
+                  setSelectedMatch(match);
+                  navigate("/players");
+                }}
+                style={{
+                  marginLeft: "10px",
+                  backgroundColor: isSelected ? "green" : "",
+                  color: isSelected ? "white" : "",
+                }}
+              >
+                {isSelected ? "Selected" : "Select"}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }
