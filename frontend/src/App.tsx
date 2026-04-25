@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
 import Layout from "./components/layout/Layout";
 
 import PlayersPage from "./pages/PlayersPage";
@@ -12,16 +13,30 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
 
-        {/* Default page */}
         <Route index element={<MatchesPage />} />
 
         <Route path="players" element={<PlayersPage />} />
-        <Route path="my-team" element={<MyTeamPage />} />
+
+        <Route
+          path="my-team"
+          element={
+            <>
+              <SignedIn>
+                <MyTeamPage />
+              </SignedIn>
+
+              <SignedOut>
+                <p>Please sign in to view your team.</p>
+                <SignInButton />
+              </SignedOut>
+            </>
+          }
+        />
+
         <Route path="matches" element={<MatchesPage />} />
         <Route path="stats" element={<StatsPage />} />
         <Route path="teams" element={<TeamsPage />} />
 
-        {/* fallback */}
         <Route path="*" element={<Navigate to="/" />} />
 
       </Route>
