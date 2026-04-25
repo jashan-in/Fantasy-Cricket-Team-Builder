@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { saveUserTeam, getMyTeams } from "../controllers/userTeamController";
+import { getAllTeams, createTeamController } from "../controllers/teamController";
 
 const router = Router();
 
-router.post("/", saveUserTeam);
-router.get("/my", getMyTeams);
+router.get("/", getAllTeams);
+router.post("/", createTeamController);
 
 export default router;
