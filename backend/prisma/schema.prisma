@@ -41,3 +41,12 @@ model Stats {
 
   player    Player @relation(fields: [playerId], references: [id])
 }
+
+model UserTeam {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  matchId   Int
+  players   Player[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
