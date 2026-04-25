@@ -3,6 +3,16 @@ import { getPlayers, createPlayer, getPlayersByTeams } from "../controllers/play
 
 const router = Router();
 
+/**
+ * @swagger
+ * /players:
+ *   get:
+ *     summary: Get all players
+ *     responses:
+ *       200:
+ *         description: List of players
+ */
+
 router.get("/", getPlayers);
 router.post("/", createPlayer);
 
